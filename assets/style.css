@@ -1,11 +1,40 @@
-.col-9 {
+#header {
     border: solid 1px black;
+    text-align: center;
+    background-color: aqua;
+    height: auto;
+    width: auto;
+
+}
+.container {
+    border: solid 5px purple;
+    display: flex;
+    height: auto;
+    width: auto;
+}
+
+.col-9 {
+    border: solid 5px red;
+    display: flex;
+    justify-content:flex-end;
+    margin-left: 25%;
+    /* width: 25%;
+    height: auto; */
 }
 
 .col-6 {
-    border: solid 1px black;
+    border: solid 3px blue;
 }
 
 .col-4 {
-    border: solid 1px black;
+    border: solid 3px red;
 }
+
+.col {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 75%;
+}
+
+
