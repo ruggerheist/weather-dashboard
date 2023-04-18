@@ -2,39 +2,70 @@
     border: solid 1px black;
     text-align: center;
     background-color: aqua;
-    height: auto;
+    height: 100%;
     width: auto;
 
 }
 .container {
     border: solid 5px purple;
     display: flex;
-    height: auto;
-    width: auto;
+    min-height: 100%;
+    max-width: 100%;
 }
+
+#search {
+    
+}
+
+/* .btn {
+    width: 25%;
+} */
+
+
 
 .col-9 {
     border: solid 5px red;
     display: flex;
-    justify-content:flex-end;
-    margin-left: 25%;
-    /* width: 25%;
-    height: auto; */
+    justify-content:flex-start;
+    margin-left: 25%
 }
 
 .col-6 {
     border: solid 3px blue;
+    width: 20%;
 }
 
-.col-4 {
+/* .col-4 {
     border: solid 3px red;
-}
+    display: flex;
+    justify-content: flex-start;
+} */
 
 .col {
     display: flex;
-    align-items: center;
-    height: 100%;
-    width: 75%;
+    height: 35%;
+    width: auto;
 }
+
+.card{
+    display: flex;
+    justify-content: flex-end;
+    width: 10%;
+    height: 20%;
+    margin-top: 25%;
+    margin-bottom: 5%;
+    margin-right: 90%;
+}
+
+/** .row bootstrap globals, trying to change it breaks the page but wont let me style with it
+/* .forecast {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
+} */
 
 
