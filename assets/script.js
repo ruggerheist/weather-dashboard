@@ -2,35 +2,61 @@ const searchButton = document.getElementById('searchbutton');
 let todaysForecast = document.getElementById('todaysforecast');
 let fiveDayForecast = document.getElementById('card-deck');
 
+function titleCase(str) {
+    var arrayOfWords = str.toLowerCase().split(' ');
+    for (var i = 0; i < arrayOfWords.length; i++) {
+      arrayOfWords[i] = arrayOfWords[i].charAt(0).toUpperCase() + arrayOfWords[i].slice(1); 
+    }
+    return arrayOfWords.join(' ');
+  }
 
-function getTodaysWeather(event) {
-    event.preventDefault();
+  function getTodaysWeather(event) {
+    if (event) {
+        event.preventDefault();
+      }
     const searchCity = document.getElementById('search').value;
-    console.log(searchCity);
     var currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=${searchCity}&appid=e543b07a6edfe782636b4c5e7cece914&units=imperial`; 
-    
+    document.getElementById('search').value = '';
+
    fetch(currentWeather)
         .then(function (response){
+            if (!response.ok) {
+                alert('City not found. Please try again.');
+                document.getElementById('search').focus();
+                throw new Error('City not found');
+              }
             return response.json();
         })
-        .then(function (data) {
-            console.log(data);
-            var longitude  = data.coord.lon;
-            var latitude = data.coord.lat;
-            console.log(longitude, latitude);
-            for (var i = 0; i < data.weather.length; i++) { //delete for loop
-                var weatherDescription = document.createElement('li');
-                weatherDescription.textContent = data.weather[i].description;
-                // create multiple li elements
-                todaysForecast.innerHTML = "Todays Forecast";
-                todaysForecast.appendChild(weatherDescription);
-                var tempHigh = document.createElement('li');
-                tempHigh.textContent = list.main[i].temp_min; //causing uncaught (in promise) error
-                todaysForecast.appendChild(tempHigh);
-            }
+        .then(function (list) {
+            console.log(list);
+            var longitude  = list.coord.lon;
+            var latitude = list.coord.lat;
+            //var weatherIcon = document.createElement('img')
+            var weatherDescription = document.createElement('li');
+            weatherDescription.textContent = titleCase(list.weather[0].description);
+            todaysForecast.innerHTML = titleCase(`Todays Forecast for ${searchCity}`);
+            todaysForecast.appendChild(weatherDescription);
+            //addWeatherCondition(list.weather.icon); //add weather icon, breaks line 52
+            addWeatherCondition("Real Feel", list.main.feels_like);
+            addWeatherCondition("High", list.main.temp_max);
+            addWeatherCondition("Low", list.main.temp_min);
+            addWeatherCondition("Wind", list.wind.speed);
+            addWeatherCondition("Humidity", list.main.humidity)
             getFiveDay(longitude, latitude);
+            //saveSearchCity(searchCity);
         })
-        
+}
+
+function addWeatherCondition(weatherCondition, value){
+  var condition = document.createElement('li');
+  condition.textContent = titleCase(weatherCondition.replace("_", " "))+`: ${Math.round(value)}`;
+  todaysForecast.appendChild(condition);
+
+  /* function addWeatherIcon(weatherIcon, value){
+    var icon = document.createElement('img');
+    icon.innerHTML = ('')
+    weatherIcon.appendChild(condition);
+} */
 }
 
 searchButton.addEventListener('click', getTodaysWeather);
@@ -41,12 +67,29 @@ function getFiveDay(longitude, latitude) {
         .then(function(response){
             return response.json();
         })
-        .then(function (data){
-            console.log(data);
-            //for (var i = 0; i < data.length; i++) {
-                //var createFiveDay = // stopped here, create ids for each row per card?
-            //}
+        .then(function (list){
+            console.log(list);
+            for (var i = 0; i < list.length; i++) {
+                let unixTimestamp = (list.dt); //list.dt isnt pulling yet
+                var dateObject = new Date(unixTimestamp * 1000);
+                var formattedDate = dateObject.toLocaleDateString();
+                var day = formattedDate.document.createElement('h3');
+                console.log(formattedDate);
+                day.textContent = titleCase(list[i].dt);
+                fiveDayForecast.innerHTML = titleCase(`Forecast for: ${formattedDate}`);
+                var createDailyForecast = document.createElement('li');
+
+                
+
+            }
+        //addDailyForecast()
         })
+
+function addDailyForecast(dailyWeather, value){
+    var dailyForecast = document.createElement('li');
+    dailyForecast.textContent = titleCase(dailyWeather.replace("_", " "))+`: ${Math.round(value)}`;
+    fiveDayForecast.appendChild(dailyForecast);
+}
 }
 
 // TO DO:

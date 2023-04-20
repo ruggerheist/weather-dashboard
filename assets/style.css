@@ -16,6 +16,7 @@
 
 #todaysforecast {
     height: 30%;
+    list-style: none;
 }
 
 .sidebar {
