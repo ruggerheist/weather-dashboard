@@ -31,7 +31,7 @@ function titleCase(str) {
             console.log(list);
             var longitude  = list.coord.lon;
             var latitude = list.coord.lat;
-            //var weatherIcon = document.createElement('img')
+            //var weatherIcon = document.createElement('img') 
             var weatherDescription = document.createElement('li');
             weatherDescription.textContent = titleCase(list.weather[0].description);
             todaysForecast.innerHTML = titleCase(`Todays Forecast for ${searchCity}`);
@@ -69,15 +69,19 @@ function getFiveDay(longitude, latitude) {
         })
         .then(function (list){
             console.log(list);
-            for (var i = 0; i < list.length; i++) {
-                let unixTimestamp = (list.dt); //list.dt isnt pulling yet
-                var dateObject = new Date(unixTimestamp * 1000);
+            for (var i = 0; i < list.list.length; i+8) {
+                console.log(list.list);
+                let unixTimestamp = (list.list[i].dt_txt); //list.dt isnt pulling yet
+                console.log(unixTimestamp)
+                /* var dateObject = new Date(unixTimestamp * 1000);
                 var formattedDate = dateObject.toLocaleDateString();
-                var day = formattedDate.document.createElement('h3');
-                console.log(formattedDate);
-                day.textContent = titleCase(list[i].dt);
+                var day = formattedDate.document.createElement('h3'); */
+                //console.log(formattedDate);
+                var day = document.createElement('h3');
+                day.textContent = unixTimestamp;
+                fiveDayForecast.appendChild(day); //displaying under cards in format that needs to change
                 fiveDayForecast.innerHTML = titleCase(`Forecast for: ${formattedDate}`);
-                var createDailyForecast = document.createElement('li');
+                var createDailyForecast = document.createElement('li'); //stopped here
 
                 
 
