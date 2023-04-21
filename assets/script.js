@@ -1,6 +1,9 @@
 const searchButton = document.getElementById('searchbutton');
 let todaysForecast = document.getElementById('todaysforecast');
 let fiveDayForecast = document.getElementById('card-deck');
+const forecastElements = [];
+
+
 
 function titleCase(str) {
     var arrayOfWords = str.toLowerCase().split(' ');
@@ -17,6 +20,14 @@ function titleCase(str) {
     const searchCity = document.getElementById('search').value;
     var currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=${searchCity}&appid=e543b07a6edfe782636b4c5e7cece914&units=imperial`; 
     document.getElementById('search').value = '';
+
+    function renderSearchCity() {
+      let storedSearch = localStorage.setItem("storedSearch", JSON.stringify(searchCity));
+      storedSearch = JSON.parse(localStorage.getItem('searchCity'));
+      if (lastSearch != null) {
+        document.getElementById('savedsearches').textContent = lastSearch;
+      }
+    }
 
    fetch(currentWeather)
         .then(function (response){
@@ -43,9 +54,14 @@ function titleCase(str) {
             addWeatherCondition("Wind", list.wind.speed);
             addWeatherCondition("Humidity", list.main.humidity)
             getFiveDay(longitude, latitude);
-            //saveSearchCity(searchCity);
+            
+            
+        
         })
+        renderSearchCity();    
 }
+
+
 
 function addWeatherCondition(weatherCondition, value){
   var condition = document.createElement('li');
@@ -59,10 +75,20 @@ function addWeatherCondition(weatherCondition, value){
 } */
 }
 
+forecastElements.forEach( function(cardNumber) {
+  let cardId = `#card-${cardNumber}`;
+  let cardBox = $(cardId);
+  let forecastDate = $('.cardtitle', cardBox);
+  console.log(cardNumber);
+})
+
+
+
 searchButton.addEventListener('click', getTodaysWeather);
 
 function getFiveDay(longitude, latitude) {
     var weeksWeather = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=e543b07a6edfe782636b4c5e7cece914&units=imperial`;
+    console.log(weeksWeather);
     fetch(weeksWeather)
         .then(function(response){
             return response.json();
@@ -70,21 +96,24 @@ function getFiveDay(longitude, latitude) {
         .then(function (list){
             console.log(list);
             for (var i = 0; i < list.list.length; i+8) {
-                console.log(list.list);
-                let unixTimestamp = (list.list[i].dt_txt); //list.dt isnt pulling yet
-                console.log(unixTimestamp)
-                /* var dateObject = new Date(unixTimestamp * 1000);
-                var formattedDate = dateObject.toLocaleDateString();
-                var day = formattedDate.document.createElement('h3'); */
+                //console.log(list.list);
+                let actualTime = (list.list[i].dt_txt); //list.dt isnt pulling yet
+                //console.log(actualTime)
+                //let dayTemp = list.list[i].
+                //var dateObject = new Date(unixTimestamp * 1000);
+                //var formattedDate = dateObject.toLocaleDateString();
+                //var day = formattedDate.document.createElement('h3');
                 //console.log(formattedDate);
                 var day = document.createElement('h3');
-                day.textContent = unixTimestamp;
+                day.textContent = actualTime;
                 fiveDayForecast.appendChild(day); //displaying under cards in format that needs to change
-                fiveDayForecast.innerHTML = titleCase(`Forecast for: ${formattedDate}`);
+                //fiveDayForecast.innerHTML = titleCase(`Forecast for: ${formattedDate}`);
                 var createDailyForecast = document.createElement('li'); //stopped here
-
-                
-
+                /* let currentDate = new Date() maybe use this for dates and formatting
+                   .getFullYear() 
+                   .getMonth()
+                   .getDate
+                   .now*/
             }
         //addDailyForecast()
         })
