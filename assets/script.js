@@ -22,8 +22,8 @@ function titleCase(str) {
     document.getElementById('search').value = '';
 
     function renderSearchCity() {
-      let storedSearch = localStorage.setItem("storedSearch", JSON.stringify(searchCity));
-      storedSearch = JSON.parse(localStorage.getItem('searchCity'));
+      let lastSearch = localStorage.setItem("lastSearch", JSON.stringify(searchCity));
+      lastSearch = JSON.parse(localStorage.getItem('searchCity'));
       if (lastSearch != null) {
         document.getElementById('savedsearches').textContent = lastSearch;
       }
@@ -97,23 +97,17 @@ function getFiveDay(longitude, latitude) {
             console.log(list);
             for (var i = 0; i < list.list.length; i+8) {
                 //console.log(list.list);
-                let actualTime = (list.list[i].dt_txt); //list.dt isnt pulling yet
-                //console.log(actualTime)
-                //let dayTemp = list.list[i].
-                //var dateObject = new Date(unixTimestamp * 1000);
-                //var formattedDate = dateObject.toLocaleDateString();
-                //var day = formattedDate.document.createElement('h3');
-                //console.log(formattedDate);
-                var day = document.createElement('h3');
-                day.textContent = actualTime;
-                fiveDayForecast.appendChild(day); //displaying under cards in format that needs to change
-                //fiveDayForecast.innerHTML = titleCase(`Forecast for: ${formattedDate}`);
+                let currentDate = new Date();
+                let currentYear = currentDate.getFullYear();
+                let currentMonth = currentDate.getMonth() + 1;
+                let dayofMonth = currentDate.getDate();
+                let currentUnixTime = Date.now();
+                let todaysDate = `${currentMonth}/${dayofMonth}/${currentYear}`;
+                todaysDate.textContent.createElement('h3');
+                todaysDate.appendChild(`#card-${cardNumber}`);
+
                 var createDailyForecast = document.createElement('li'); //stopped here
-                /* let currentDate = new Date() maybe use this for dates and formatting
-                   .getFullYear() 
-                   .getMonth()
-                   .getDate
-                   .now*/
+              
             }
         //addDailyForecast()
         })
