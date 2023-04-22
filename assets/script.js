@@ -26,6 +26,8 @@ function titleCase(str) {
       lastSearch = JSON.parse(localStorage.getItem('searchCity'));
       if (lastSearch != null) {
         document.getElementById('savedsearches').textContent = lastSearch;
+        lastSearch = document.createElement('button');
+        lastSearch.appendChild('savedSearches');
       }
     }
 
@@ -101,9 +103,9 @@ function getFiveDay(longitude, latitude) {
                 let currentYear = currentDate.getFullYear();
                 let currentMonth = currentDate.getMonth() + 1;
                 let dayofMonth = currentDate.getDate();
-                let currentUnixTime = Date.now();
-                let todaysDate = `${currentMonth}/${dayofMonth}/${currentYear}`;
-                todaysDate.textContent.createElement('h3');
+                let todaysDate = Date.now();
+                todaysDate = document.createElement('h3');
+                todaysDate.textContent = `${currentMonth}/${dayofMonth}/${currentYear}`;                
                 todaysDate.appendChild(`#card-${cardNumber}`);
 
                 var createDailyForecast = document.createElement('li'); //stopped here
