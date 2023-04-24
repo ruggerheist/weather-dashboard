@@ -85,3 +85,20 @@
     border: solid 3px blue;
 }
 
+.saved-search-btn {
+    display: block; 
+    width: 100%;
+    text-align: center;
+    margin: 5px auto;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    word-break: break-word; 
+  }
+
+#savedSearches {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    max-height: calc(100%-41%);
+}
