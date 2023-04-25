@@ -23,6 +23,7 @@ body {
 }
 
 #todaysforecast {
+    display: flex;
     height: 25%;
     list-style: none;
     font-weight: bold;
