@@ -13,3 +13,5 @@ On page load, the default of Philadelphia will load. The user can use the search
 ### Citations
 
 A few issues arose with the API calls and how I had written the code. I utilized a friend of mine to help walk me through some of the more challenging code and ChatGPT to help debug some errors that elluded me. I also utlized Bootstrap for the CSS layout, Jquery, and OpenWeatherMap API for my weather display.
+
+[Live Link to Application](https://ruggerheist.github.io/weather-dashboard/)
