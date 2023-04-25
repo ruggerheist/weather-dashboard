@@ -3,8 +3,6 @@ let todaysForecast = document.getElementById('todaysforecast');
 let fiveDayForecast = document.getElementById('card-deck');
 const forecastElements = [];
 
-
-
 function titleCase(str) {
     var arrayOfWords = str.toLowerCase().split(' ');
     for (var i = 0; i < arrayOfWords.length; i++) {
@@ -33,7 +31,6 @@ function getDate(offset){
   return `${currentMonth}/${dayOfMonth}`;
 }
 function createCard(icon, date, temp, wind, humidity) {
-  // Create the card elements.
   const card = document.createElement('div');
   const cardBody = document.createElement('div');
   const dateElement = document.createElement('h5');
@@ -55,9 +52,8 @@ function createCard(icon, date, temp, wind, humidity) {
   humidityItem.className = 'list-group-item';
   humidityItem.textContent = `Humidity: ${humidity}`;
 
-  imgElement.src = `https://openweathermap.org/img/w/${icon}.png`; // Set the src attribute to the URL of the weather icon
-  imgElement.alt = 'Weather Icon'; // Set the alt attribute for accessibility
-
+  imgElement.src = `https://openweathermap.org/img/w/${icon}.png`;
+  imgElement.alt = 'Weather Icon';
 
   listGroup.appendChild(tempItem);
   listGroup.appendChild(windItem);
@@ -91,7 +87,6 @@ function getFiveDay(longitude, latitude) {
               counter++;            
           }
 
-      //addDailyForecast()
       forecastElements.forEach( function(cardNumber) {
         let cardId = `#card${cardNumber}`;
         let cardBox = $(cardId);
@@ -144,21 +139,18 @@ function getTodaysWeather(event) {
   .then(function (list) {
       console.log(list);
       var longitude  = list.coord.lon;
-      var latitude = list.coord.lat;
-      //var iconElement = document.createElement('img');
+      var latitude = list.coord.lat;      
       var header = document.querySelector('.cards-header');
       header.innerHTML = titleCase(`5 Day Forecast for ${searchCity}`);
-      var iconElement = list.weather[0].icon;
-      iconElement.src = `https://openweathermap.org/img/w/${iconElement}.png`; // Set the src attribute to the URL of the weather icon
-      iconElement.alt = 'Weather Icon'; // Set the alt attribute for accessibility
+      var icon = list.weather[0].icon;
       iconElement = document.createElement('img');
-      todaysForecast.appendChild(iconElement);
+      iconElement.src = `https://openweathermap.org/img/w/${icon}.png`;
+      iconElement.alt = 'Weather Icon';    
       var weatherDescription = document.createElement('li');
       weatherDescription.textContent = titleCase(list.weather[0].description);
       todaysForecast.innerHTML = titleCase(`Todays Forecast for ${searchCity}`);
+      todaysForecast.appendChild(iconElement);
       todaysForecast.appendChild(weatherDescription);
-      //addWeatherCondition(list.weather.icon); //add weather icon, breaks line 52
-      addWeatherCondition(list.weather[0].icon);
       addWeatherCondition("Real Feel", list.main.feels_like);
       addWeatherCondition("High", list.main.temp_max);
       addWeatherCondition("Low", list.main.temp_min);
