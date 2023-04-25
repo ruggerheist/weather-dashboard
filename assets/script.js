@@ -149,21 +149,21 @@ function getTodaysWeather(event) {
       var header = document.querySelector('.cards-header');
       header.innerHTML = titleCase(`5 Day Forecast for ${searchCity}`);
       var iconElement = list.weather[0].icon;
-      iconElement = document.createElement('img');
       iconElement.src = `https://openweathermap.org/img/w/${iconElement}.png`; // Set the src attribute to the URL of the weather icon
       iconElement.alt = 'Weather Icon'; // Set the alt attribute for accessibility
+      iconElement = document.createElement('img');
       todaysForecast.appendChild(iconElement);
       var weatherDescription = document.createElement('li');
       weatherDescription.textContent = titleCase(list.weather[0].description);
       todaysForecast.innerHTML = titleCase(`Todays Forecast for ${searchCity}`);
       todaysForecast.appendChild(weatherDescription);
       //addWeatherCondition(list.weather.icon); //add weather icon, breaks line 52
+      addWeatherCondition(list.weather[0].icon);
       addWeatherCondition("Real Feel", list.main.feels_like);
       addWeatherCondition("High", list.main.temp_max);
       addWeatherCondition("Low", list.main.temp_min);
       addWeatherCondition("Wind", list.wind.speed);
-      addWeatherCondition("Humidity", list.main.humidity);
-      addWeatherCondition(list.weather[0].icon);
+      addWeatherCondition("Humidity", list.main.humidity);      
       getFiveDay(longitude, latitude);
       renderSearchCity(searchCity);  
   })      
