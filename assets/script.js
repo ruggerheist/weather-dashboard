@@ -19,7 +19,7 @@ function addWeatherCondition(weatherCondition, value){
   todaysForecast.appendChild(condition);  
 }
 
-function addDailyForecast(dailyWeather, value){
+function addDailyForecast(dailyWeather,value){
   var dailyForecast = document.createElement('li');
   dailyForecast.textContent = titleCase(dailyWeather.replace("_", " "))+`: ${Math.round(value)}`;
   fiveDayForecast.appendChild(dailyForecast);
@@ -32,11 +32,12 @@ function getDate(offset){
   let dayOfMonth = currentDate.getDate();
   return `${currentMonth}/${dayOfMonth}`;
 }
-function createCard(date, temp, wind, humidity) {
+function createCard(icon, date, temp, wind, humidity) {
   // Create the card elements.
   const card = document.createElement('div');
   const cardBody = document.createElement('div');
   const dateElement = document.createElement('h5');
+  const imgElement = document.createElement('img');
   const listGroup = document.createElement('ul');
   const tempItem = document.createElement('li');
   const windItem = document.createElement('li');
@@ -54,10 +55,15 @@ function createCard(date, temp, wind, humidity) {
   humidityItem.className = 'list-group-item';
   humidityItem.textContent = `Humidity: ${humidity}`;
 
+  imgElement.src = `https://openweathermap.org/img/w/${icon}.png`; // Set the src attribute to the URL of the weather icon
+  imgElement.alt = 'Weather Icon'; // Set the alt attribute for accessibility
+
+
   listGroup.appendChild(tempItem);
   listGroup.appendChild(windItem);
   listGroup.appendChild(humidityItem);
   cardBody.appendChild(dateElement);
+  cardBody.appendChild(imgElement);
   cardBody.appendChild(listGroup);
   card.appendChild(cardBody);
   console.log(card);
@@ -65,22 +71,22 @@ function createCard(date, temp, wind, humidity) {
 }
 function getFiveDay(longitude, latitude) {
   var weeksWeather = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=e543b07a6edfe782636b4c5e7cece914&units=imperial`;
+  console.log(weeksWeather);
   fetch(weeksWeather)
       .then(function(response){
           return response.json();
       })
       .then(function (list){
           console.log(list.list.length);
-          var counter = 1;
-             
-          for (var i = 0; i < list.list.length; i+=8) {
+          var counter = 1;             
+          for (var i = 0; i < list.list.length; i+=8) {              
               var date = getDate(counter - 1);
               var temp = Math.round(list.list[i].main.temp);
               var humidity = Math.round(list.list[i].main.humidity);
               var wind = Math.round(list.list[i].wind.speed); 
-              var image = list.list
+              var icon = list.list[i].weather[0].icon;
               var cardDeck = document.getElementById('card-deck');
-              var card = createCard(date, temp, wind, humidity);
+              var card = createCard(icon, date, temp, wind, humidity);                          
               cardDeck.appendChild(card);              
               counter++;            
           }
@@ -97,6 +103,7 @@ function getFiveDay(longitude, latitude) {
 
 function renderSearchCity(searchCity) {
   var savedCities = JSON.parse(localStorage.getItem('savedCities')) || [];
+  fiveDayForecast.innerHTML = '';
   if (!savedCities.includes(titleCase(searchCity))){
     savedCities.push(titleCase(searchCity));
     localStorage.setItem('savedCities', JSON.stringify(savedCities));
@@ -123,6 +130,7 @@ function getTodaysWeather(event) {
     }
   const searchCity = document.getElementById('search').value;
   var currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=${searchCity}&appid=e543b07a6edfe782636b4c5e7cece914&units=imperial`; 
+  console.log(currentWeather);
   document.getElementById('search').value = '';
   fetch(currentWeather)
   .then(function (response){
@@ -137,7 +145,14 @@ function getTodaysWeather(event) {
       console.log(list);
       var longitude  = list.coord.lon;
       var latitude = list.coord.lat;
-      //var weatherIcon = document.createElement('img') 
+      //var iconElement = document.createElement('img');
+      var header = document.querySelector('.cards-header');
+      header.innerHTML = titleCase(`5 Day Forecast for ${searchCity}`);
+      var iconElement = list.weather[0].icon;
+      iconElement = document.createElement('img');
+      iconElement.src = `https://openweathermap.org/img/w/${iconElement}.png`; // Set the src attribute to the URL of the weather icon
+      iconElement.alt = 'Weather Icon'; // Set the alt attribute for accessibility
+      todaysForecast.appendChild(iconElement);
       var weatherDescription = document.createElement('li');
       weatherDescription.textContent = titleCase(list.weather[0].description);
       todaysForecast.innerHTML = titleCase(`Todays Forecast for ${searchCity}`);
@@ -147,7 +162,8 @@ function getTodaysWeather(event) {
       addWeatherCondition("High", list.main.temp_max);
       addWeatherCondition("Low", list.main.temp_min);
       addWeatherCondition("Wind", list.wind.speed);
-      addWeatherCondition("Humidity", list.main.humidity)
+      addWeatherCondition("Humidity", list.main.humidity);
+      addWeatherCondition(list.weather[0].icon);
       getFiveDay(longitude, latitude);
       renderSearchCity(searchCity);  
   })      
@@ -163,5 +179,3 @@ window.addEventListener('DOMContentLoaded', () => {
     renderSearchCity(city);
   });
 });
-// TO DO:
-// get localstorage working and populating recent searches without reset on page load

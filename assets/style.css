@@ -6,6 +6,11 @@
     width: auto;
 }
 
+.cards-header {
+    font-weight: bold;
+    font-size: 20px;
+}
+
 .container {
     border: solid 3px purple;
     display: flex;
@@ -17,6 +22,8 @@
 #todaysforecast {
     height: 30%;
     list-style: none;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .sidebar {
@@ -68,6 +75,14 @@
     height: 50%;
 }
 
+.card-body {
+    background-color: lightgray;
+}
+
+.list-group-item {
+    background-color: lightgray;
+}
+
 .card {
     display: flex;
     justify-content: flex-start;
@@ -75,6 +90,8 @@
 
 .list-group-item{
     min-width: max-content;
+    font-weight: bold;
+    font-size: 17px;
 }
 
 .col-12 {
